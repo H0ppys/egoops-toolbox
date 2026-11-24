@@ -118,3 +118,24 @@ Select-String -Path $files -Pattern 'eyJ[A-Za-z0-9_-]{20,}','(?<!\d)1[3-9]\d{9}(
 
 本地复跑结果：全部 0 命中。
 
+
+---
+
+## 追加：VolcEngine Ark API Key（2026-11-24 推送时由 GitHub Push Protection 检出）
+
+GitHub 推送保护在首次推送时拦截了 5 个探针脚本里的一个真实 Ark API Key（形如 `ark-<uuid>-<5hex>`）。处理方式：
+
+| 文件 | 行 | 处理 |
+| --- | --- | --- |
+| `src/api-probe/list_ark_chat.py` | 5 | `KEY = os.environ.get("ARK_API_KEY", "<FILL_ARK_API_KEY>")` |
+| `src/api-probe/probe_ark_models.py` | 6 | 同上 |
+| `src/api-probe/probe_ark_open.py` | 6 | 同上 |
+| `src/api-probe/probe_llm.py` | 6 | 同上 |
+| `src/api-probe/probe_vision.py` | 7 | 同上 |
+| `src/misc/setup_glm.py` | — | 同上 |
+
+- 维护脚本：`redact_ark_key.py`（幂等，扫描 `ark-<uuid>-<5hex>` 形态并替换；可重复运行）
+- 历史清洗：仓库用孤立分支重建为单个提交（原含该 key 的提交未推送到远端）
+- 运行时请通过环境变量提供：`set ARK_API_KEY=...`
+
+> 该 key 曾以明文存在于工作区原始脚本中，**建议在火山引擎控制台轮换**。
