@@ -1,0 +1,12 @@
+{
+  "port": 18090,
+  "host": "127.0.0.1",
+  "dbFile": "relay.db",
+  "dataDir": "data",
+  "chunkSize": 4194304,
+  "maxFileBytes": 1073741824,
+  "inviteCode": "",
+  "adminKey": "<FILL_ME>",
+  "backupDir": "backup",
+  "backupKeepDays": 14
+}
